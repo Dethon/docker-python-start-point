@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  test:
+    build:
+      context: .
+      target: test
+      dockerfile: docker/Dockerfile
+  deploy:
+    build:
+      context: .
+      target: deploy
+      dockerfile: docker/Dockerfile
+    command: uvicorn main:app --host 0.0.0.0 --port 80
+    ports:
+      - ${SYL_PORT_DEPLOY}:80    
+  dev:
+    build:
+      context: .
+      target: dev
+      dockerfile: docker/Dockerfile
+    command: /usr/sbin/sshd -D
+    ports:
+      - ${SYL_PORT_SSH}:22
+    volumes:
+      - .:/code/app
+    environment:
+      - PYTHONPATH=/code/app/src
+  
