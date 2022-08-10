@@ -11,13 +11,16 @@ uvicorn = {extras = ["standard"], version = "^0.18.0"}
 psycopg2 = "^2.9.3"
 requests = "^2.28.1"
 fastapi = "^0.79.0"
+mypy = {version = "^0.971", optional = true}
+pytest = {version = "^7.1.2", optional = true}
 
 [tool.poetry.dev-dependencies]
 visidata = "^2.9.1"
 black = "^22.6.0"
 pylint = "^2.14.5"
-mypy = "^0.971"
-pytest = "^7.1.2"
+
+[tool.poetry.extras]
+test = ["mypy", "pytest"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
