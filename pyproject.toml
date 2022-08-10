@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "docker-python-start-point"
+version = "0.1.0"
+description = ""
+authors = ["Francisco Crespo <jf_crespo@outlook.es>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+SQLAlchemy = "^1.4.40"
+uvicorn = {extras = ["standard"], version = "^0.18.0"}
+psycopg2 = "^2.9.3"
+requests = "^2.28.1"
+fastapi = "^0.79.0"
+
+[tool.poetry.dev-dependencies]
+visidata = "^2.9.1"
+black = "^22.6.0"
+pylint = "^2.14.5"
+mypy = "^0.971"
+pytest = "^7.1.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

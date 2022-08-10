@@ -4,12 +4,12 @@ services:
     build:
       context: .
       target: test
-      dockerfile: docker/Dockerfile
+      dockerfile: Dockerfile
   deploy:
     build:
       context: .
       target: deploy
-      dockerfile: docker/Dockerfile
+      dockerfile: Dockerfile
     command: uvicorn main:app --host 0.0.0.0 --port 80
     ports:
       - ${SYL_PORT_DEPLOY}:80    
@@ -17,12 +17,14 @@ services:
     build:
       context: .
       target: dev
-      dockerfile: docker/Dockerfile
-    command: /usr/sbin/sshd -D
-    ports:
-      - ${SYL_PORT_SSH}:22
+      dockerfile: Dockerfile
+      args:
+        GID: ${MY_GID}
+        UID: ${MY_UID}
     volumes:
       - .:/code/app
     environment:
       - PYTHONPATH=/code/app/src
+      - MYPYPATH=/code/app/src
+    tty: true 
   
