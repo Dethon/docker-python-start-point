@@ -32,7 +32,7 @@ FROM base as test
 WORKDIR $PYSETUP_PATH
 COPY --from=build-base $POETRY_HOME $POETRY_HOME
 COPY --from=build-base $PYSETUP_PATH $PYSETUP_PATH
-RUN poetry install
+RUN poetry install --no-dev --extras test
 
 COPY . /code/app
 WORKDIR /code/app
@@ -43,7 +43,14 @@ RUN mypy src && pytest tests
 
 FROM base as deploy
 ENV FASTAPI_ENV=production
+
 COPY --from=build-base $PYSETUP_PATH $PYSETUP_PATH
+
+ARG username=deployuser
+RUN useradd -ms /bin/bash $username
+RUN chown $username -R $PYSETUP_PATH
+USER $username
+
 COPY ./src /app/
 WORKDIR /app
 EXPOSE 80
@@ -70,12 +77,11 @@ RUN apt update && \
 
 ARG GID
 ARG UID
-RUN groupadd -f --gid $GID gro
-RUN useradd --uid $UID --gid $GID -m usr
+RUN groupadd --gid $GID gro
+RUN useradd -ms /bin/bash --uid $UID --gid $GID -m usr
 RUN chown $UID:$GID -R $POETRY_HOME && chown $UID:$GID -R $PYSETUP_PATH
 USER $UID
-ENV SHELL=/bin/bash
 
-RUN poetry install
+RUN poetry install --extras test
 
 ###############################################################################
