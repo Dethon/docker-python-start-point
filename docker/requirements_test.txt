@@ -1,3 +1,0 @@
-pytest==7.1.2
-mypy==0.950
-fastapi[all]==0.77.1

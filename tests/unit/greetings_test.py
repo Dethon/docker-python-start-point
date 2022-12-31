@@ -1,4 +1,4 @@
-from greetings import hello_world
+from syl.greetings import hello_world
 
 
 class TestGreetings:

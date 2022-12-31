@@ -1,3 +1,0 @@
-visidata==2.8
-black==22.3.0
-pylint==2.13.8

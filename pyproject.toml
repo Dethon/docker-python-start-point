@@ -1,36 +1,33 @@
 [tool.poetry]
-name = "docker-python-start-point"
+name = "syl"
 version = "0.1.0"
 description = ""
 authors = ["Francisco Crespo <jf_crespo@outlook.es>"]
 
+[tool.poetry.scripts]
+start = "syl.entrypoints.app:start"
+
 [tool.poetry.dependencies]
 python = "^3.10"
-SQLAlchemy = "^1.4.40"
-uvicorn = {extras = ["standard"], version = "^0.18.0"}
-psycopg2 = "^2.9.3"
+uvicorn = {extras = ["standard"], version = "^0.20.0"}
 requests = "^2.28.1"
-fastapi = "^0.79.0"
-mypy = {version = "^0.971", optional = true}
-pytest = {version = "^7.1.2", optional = true}
+fastapi = "^0.88.0"
+pandas = "^1.5.2"
+pydantic = "^1.10.4"
 
-[tool.poetry.dev-dependencies]
-visidata = "^2.9.1"
-black = "^22.6.0"
-pylint = "^2.14.5"
+[tool.poetry.group.dev.dependencies]
+visidata = "^2.10.2"
+black = "^22.12.0"
+ipykernel = "^6.19.4"
 
-[tool.poetry.extras]
-test = ["mypy", "pytest"]
+[tool.poetry.group.test.dependencies]
+pytest = "^7.2.0"
+mypy = "^0.991"
+httpx = "^0.23.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.black]
-line-length = 100
-
-[tool.pylint.messages_control]
-max-line-length = 100
-disable = [
-  "missing-module-docstring",
-]
+line-length = 120
