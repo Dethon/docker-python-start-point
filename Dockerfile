@@ -72,6 +72,6 @@ RUN poetry install --without dev,test
 COPY . /app/
 WORKDIR /app
 EXPOSE 80
-CMD ["uvicorn", "syl.entrypoints.app:app", "--host 0.0.0.0", "--port 80"]
+CMD ["uvicorn", "syl.entrypoints.app:app", "--host", "0.0.0.0", "--port", "80"]
 
 ###############################################################################
