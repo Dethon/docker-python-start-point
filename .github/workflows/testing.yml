@@ -1,0 +1,14 @@
+name: Testing
+on: [push]
+jobs:
+  test-app:
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_BUILDKIT: 1
+      COMPOSE_DOCKER_CLI_BUILD: 1
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build test image
+        run: |
+          docker-compose build test
+          
