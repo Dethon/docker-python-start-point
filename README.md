@@ -1,4 +1,4 @@
-# DockerPythonStartPoint
+# Docker-Python Start Point
 
 A hello world app that can be used as a start point to develop a Python web application.
 
