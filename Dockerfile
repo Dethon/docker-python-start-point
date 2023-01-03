@@ -14,8 +14,11 @@ ENV PYTHONUNBUFFERED=1 \
 
 ENV PATH="$POETRY_HOME/bin:$VIRTUAL_ENV/bin:$PATH"
 
-RUN apt update && apt upgrade -y && apt clean
-RUN pip install "poetry==$POETRY_VERSION"
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get clean  && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install --no-cache-dir "poetry==$POETRY_VERSION"
 WORKDIR $PYSETUP_PATH
 COPY poetry.lock pyproject.toml ./
 
@@ -24,8 +27,8 @@ COPY poetry.lock pyproject.toml ./
 FROM base as dev
 ENV FASTAPI_ENV=development
 
-RUN apt update && \
-    apt install -y \
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y \
     sudo \
     htop \
     git \
@@ -33,13 +36,15 @@ RUN apt update && \
     vim \
     curl \
     default-jre \
-    iputils-ping
+    iputils-ping && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 ARG GID
 ARG UID
-RUN groupadd --gid $GID gro
-RUN useradd -ms /bin/bash --uid $UID --gid $GID -m usr
-RUN chown $UID:$GID $PYSETUP_PATH
+RUN groupadd --gid $GID gro && \
+    useradd -ms /bin/bash --uid "$UID" --gid "$GID" -m usr && \
+    chown "$UID":"$GID" "$PYSETUP_PATH"
 USER $UID
 RUN poetry install
 
@@ -59,8 +64,8 @@ FROM base as deploy
 ENV FASTAPI_ENV=production
 
 ARG username=deployuser
-RUN useradd -ms /bin/bash $username
-RUN chown $username $PYSETUP_PATH
+RUN useradd -ms /bin/bash $username && \
+    chown "$username" "$PYSETUP_PATH"
 USER $username
 RUN poetry install --without dev,test
 
