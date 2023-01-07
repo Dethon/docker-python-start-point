@@ -13,7 +13,7 @@ def hello_world_greeting() -> dict:
 
 
 def start() -> None:
-    uvicorn.run("syl.entrypoints:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("syl.entrypoints:app", host="127.0.0.1", port=8000, reload=True)
 
 
 if __name__ == "__main__":
